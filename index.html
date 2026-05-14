@@ -1,240 +1,973 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Артем & Алёна — Свадьба</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Артем & Алена — 08.08.2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #0f0e0d;
-      --card: rgba(30, 27, 24, 0.85);
-      --text: #f5efe6;
-      --muted: #b8a89a;
-      --line: rgba(255,255,255,0.08);
-      --gold: #d4af7f;
-      --gold-deep: #a67c52;
-      --shadow: 0 20px 60px rgba(0,0,0,0.6);
-      --radius: 24px;
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#faf8f5',
+            milk: '#f5f0ea',
+            beige: '#e8ddd0',
+            sage: '#7c8c6e',
+            leaf: '#5a6e47',
+            forest: '#3d4f32',
+            olive: '#a3b18a',
+            muted: '#8a8578',
+            warm: '#c4b5a0',
+          },
+          fontFamily: {
+            serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+            sans: ['Montserrat', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
     }
-
-    * { box-sizing: border-box; }
+  </script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      color: var(--text);
-      background: radial-gradient(circle at top, #1a1613, #0b0a09);
+      background-color: #faf8f5;
+      overflow-x: hidden;
     }
 
-    .wrap {
-      width: min(100%, 520px);
-      margin: 0 auto;
-      padding: 20px 16px 40px;
+    /* Leaf decorations */
+    .leaf-top-left {
+      position: absolute;
+      top: -20px;
+      left: -30px;
+      width: 180px;
+      height: 180px;
+      opacity: 0.12;
+      transform: rotate(-15deg);
     }
 
-    .hero {
-      min-height: 100svh;
+    .leaf-bottom-right {
+      position: absolute;
+      bottom: -20px;
+      right: -30px;
+      width: 180px;
+      height: 180px;
+      opacity: 0.12;
+      transform: rotate(165deg);
+    }
+
+    /* Fade-in animation */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-up-delay-1 {
+      transition-delay: 0.15s;
+    }
+
+    .fade-up-delay-2 {
+      transition-delay: 0.3s;
+    }
+
+    .fade-up-delay-3 {
+      transition-delay: 0.45s;
+    }
+
+    /* Countdown flip animation */
+    .countdown-card {
+      transition: transform 0.3s ease;
+    }
+
+    .countdown-card:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Divider with leaf */
+    .leaf-divider {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
-      text-align: center;
-      overflow: hidden;
+      justify-content: center;
+      gap: 16px;
+      padding: 16px 0;
     }
 
-    h1, h2 { font-family: 'Cormorant Garamond', serif; }
-
-    h1 {
-      font-size: 56px;
-      margin: 0;
-      opacity: 0;
-      transform: translateY(22px) scale(0.96);
-      letter-spacing: 0.08em;
-      text-shadow: 0 0 24px rgba(212, 175, 127, 0.08);
-      animation: cinematicReveal 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    .leaf-divider::before,
+    .leaf-divider::after {
+      content: '';
+      height: 1px;
+      width: 60px;
+      background: linear-gradient(to right, transparent, #7c8c6e, transparent);
     }
 
-    .amp { color: var(--gold); }
-
-    .date-big {
-      margin-top: 12px;
-      color: var(--gold);
-      letter-spacing: 3px;
-      opacity: 0;
-      transform: translateY(18px);
-      animation: cinematicReveal 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+    /* Floating leaves background */
+    .floating-leaf {
+      position: absolute;
+      opacity: 0.06;
+      pointer-events: none;
     }
 
-    .lead {
-      margin-top: 24px;
-      padding: 20px;
-      background: var(--card);
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-      opacity: 0;
-      transform: translateY(20px);
-      animation: softFadeUp 1.2s ease 0.75s forwards;
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(5deg); }
     }
 
-    .countdown {
-      margin-top: 24px;
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: 10px;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: softFadeUp 1.2s ease 1s forwards;
+    .float-anim {
+      animation: float 6s ease-in-out infinite;
     }
 
-    .count-item {
-      background: var(--card);
-      padding: 14px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
+    .float-anim-2 {
+      animation: float 8s ease-in-out infinite;
+      animation-delay: -2s;
     }
 
-    .count-num {
-      font-family: 'Cormorant Garamond';
-      font-size: 28px;
-      color: var(--gold);
+    .float-anim-3 {
+      animation: float 7s ease-in-out infinite;
+      animation-delay: -4s;
     }
 
-    .section {
-      margin-top: 20px;
-      padding: 20px;
-      border-radius: var(--radius);
-      background: var(--card);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .button {
-      display: block;
-      margin-top: 16px;
-      padding: 14px;
-      text-align: center;
-      border-radius: 16px;
-      text-decoration: none;
-      background: linear-gradient(135deg, #d4af7f, #8f6a3c);
-      color: #000;
-      font-weight: 600;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 40px;
-      color: var(--muted);
-      font-family: 'Cormorant Garamond';
-      font-size: 20px;
-      line-height: 1.6;
-    }
-
-    @keyframes cinematicReveal {
-      0% {
-        opacity: 0;
-        transform: translateY(22px) scale(0.96);
-        letter-spacing: 0.22em;
-        filter: blur(10px);
-      }
-      60% {
-        opacity: 1;
-        filter: blur(0);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        letter-spacing: 0.08em;
-        filter: blur(0);
-      }
-    }
-
-    @keyframes softFadeUp {
+    /* Hero subtle parallax */
+    @keyframes fadeInScale {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: scale(0.95);
       }
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: scale(1);
       }
     }
-  </style>
+
+    .hero-animate {
+      animation: fadeInScale 1.2s ease-out forwards;
+    }
+
+    .hero-animate-delay {
+      opacity: 0;
+      animation: fadeInScale 1.2s ease-out 0.3s forwards;
+    }
+
+    .hero-animate-delay-2 {
+      opacity: 0;
+      animation: fadeInScale 1.2s ease-out 0.6s forwards;
+    }
+
+    .hero-animate-delay-3 {
+      opacity: 0;
+      animation: fadeInScale 1.2s ease-out 0.9s forwards;
+    }
+
+    /* Navigation */
+    .nav-link {
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 1px;
+      background-color: #7c8c6e;
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Decorative leaf SVG inline */
+    .leaf-svg {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      fill: #7c8c6e;
+    }
+
+    /* Pulse for countdown seconds */
+    @keyframes pulse-soft {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .seconds-pulse {
+      animation: pulse-soft 1s ease-in-out infinite;
+    }
+
+    /* Card hover */
+    .info-card {
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .info-card:hover {
+      box-shadow: 0 8px 30px rgba(92, 110, 71, 0.08);
+      transform: translateY(-2px);
+    }
+
+    /* Button shine effect */
+    .btn-shine {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-shine::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 40%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.6s ease;
+    }
+
+    .btn-shine:hover::after {
+      left: 120%;
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .mobile-menu.open {
+      transform: translateY(0);
+    }
+
+    /* Scroll indicator */
+    @keyframes bounce-down {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    .scroll-indicator {
+      animation: bounce-down 2s ease-in-out infinite;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #faf8f5;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #c4b5a0;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #7c8c6e;
+    }
+  
+    /* ===== Enhanced Botanical Decorations ===== */
+    .botanical-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.08;
+      overflow: hidden;
+    }
+
+    .eucalyptus-branch {
+      position: absolute;
+      width: 280px;
+      opacity: 0.18;
+      filter: blur(0.2px);
+    }
+
+    .eucalyptus-top-left {
+      top: -30px;
+      left: -40px;
+      transform: rotate(-12deg);
+    }
+
+    .eucalyptus-top-right {
+      top: -20px;
+      right: -40px;
+      transform: rotate(22deg);
+    }
+
+    .eucalyptus-bottom-left {
+      bottom: -40px;
+      left: -30px;
+      transform: rotate(160deg);
+    }
+
+    .eucalyptus-bottom-right {
+      bottom: -30px;
+      right: -40px;
+      transform: rotate(190deg);
+    }
+
+    @keyframes leafFloatSoft {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-10px) rotate(2deg);
+      }
+    }
+
+    .eucalyptus-decoration {
+      animation: leafFloatSoft 8s ease-in-out infinite;
+    }
+
+    .soft-glow {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 9999px;
+      background: rgba(163, 177, 138, 0.10);
+      filter: blur(90px);
+      pointer-events: none;
+    }
+
+    .glow-top {
+      top: -120px;
+      right: -100px;
+    }
+
+    .glow-bottom {
+      bottom: -120px;
+      left: -100px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.025;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(124,140,110,0.15) 1px, transparent 1px),
+        radial-gradient(circle at 80% 80%, rgba(124,140,110,0.1) 1px, transparent 1px);
+      background-size: 24px 24px;
+      z-index: 0;
+    }
+
+    .section-divider-botanical {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0 40px;
+      opacity: 0.22;
+    }
+
+    .section-divider-botanical svg {
+      width: 160px;
+    }
+
+  
+    /* ===== Hero Side Botanical Decorations ===== */
+    .hero-side-decor {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 420px;
+      height: 80%;
+      pointer-events: none;
+      opacity: 0.14;
+      z-index: 1;
+    }
+
+    .hero-side-left {
+      left: -40px;
+    }
+
+    .hero-side-right {
+      right: -40px;
+      transform: translateY(-50%) scaleX(-1);
+    }
+
+    .hero-side-decor svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-side-decor path,
+    .hero-side-decor ellipse {
+      animation: heroLeafFloat 10s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    @keyframes heroLeafFloat {
+      0%,100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    @media (max-width: 1200px) {
+      .hero-side-decor {
+        width: 260px;
+        opacity: 0.08;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-side-decor {
+        display: none;
+      }
+    }
+
+</style>
 </head>
-<body>
-  <main class="wrap">
+<body class="font-sans text-stone-700 antialiased">
 
-    <section class="hero">
-      <h1>Артем <span class="amp">&</span> Алёна</h1>
-      <div class="date-big">08.08.2026</div>
-
-      <div class="lead">
-        Ну всё, мы решились 😄<br>
-        Приходите посмотреть, как это будет
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+    <div class="max-w-4xl mx-auto px-4">
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center justify-center gap-8 py-4">
+        <a href="#countdown" class="nav-link text-xs tracking-widest uppercase text-muted hover:text-leaf transition-colors font-medium">Отсчёт</a>
+        <a href="#schedule" class="nav-link text-xs tracking-widest uppercase text-muted hover:text-leaf transition-colors font-medium">Расписание</a>
+        <a href="#rsvp" class="nav-link text-xs tracking-widest uppercase text-muted hover:text-leaf transition-colors font-medium">Подтвердить</a>
       </div>
-
-      <div class="countdown">
-        <div class="count-item"><span class="count-num" id="days">0</span></div>
-        <div class="count-item"><span class="count-num" id="hours">0</span></div>
-        <div class="count-item"><span class="count-num" id="minutes">0</span></div>
-        <div class="count-item"><span class="count-num" id="seconds">0</span></div>
+      <!-- Mobile Nav Toggle -->
+      <div class="flex md:hidden items-center justify-center py-3">
+        <button id="menuToggle" class="p-2 rounded-lg hover:bg-white/50 transition-colors" aria-label="Меню">
+          <i data-lucide="menu" class="w-5 h-5 text-muted"></i>
+        </button>
       </div>
-    </section>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="mobile-menu md:hidden bg-cream/95 backdrop-blur-md border-b border-beige/50">
+      <div class="flex flex-col items-center gap-4 py-6">
+        <a href="#countdown" class="mobile-link text-sm tracking-widest uppercase text-muted hover:text-leaf transition-colors font-medium">Отсчёт</a>
+        <a href="#schedule" class="mobile-link text-sm tracking-widest uppercase text-muted hover:text-leaf transition-colors font-medium">Расписание</a>
+        <a href="#rsvp" class="mobile-link text-sm tracking-widest uppercase text-muted hover:text-leaf transition-colors font-medium">Подтвердить</a>
+      </div>
+    </div>
+  </nav>
 
-    <section class="section">
-      <h2>Где и когда</h2>
-      <p>08 августа 2026, 18:00</p>
-      <p>гостиница «Элизий»</p>
-      <p>Арамиль, КП Берёзки, 289</p>
-
-      <a class="button" href="https://yandex.ru/maps/?ll=60.843765,56.664357&z=16" target="_blank">Открыть на карте</a>
-    </section>
-
-    <section class="section">
-      <h2>Подарки</h2>
-      <p>
-        Самое главное для нас — ваше присутствие ❤️<br><br>
-        Но если захотите сделать подарок, мы будем рады вкладу в наше будущее ✨
-      </p>
-    </section>
-
-    <section class="section">
-      <h2>Подтверждение</h2>
-      <a class="button" href="https://t.me/yourusername">Подтвердить</a>
-    </section>
-
-    <div class="footer">
-      Любовь — это не просто момент.
-      Это путь, который мы выбираем вместе 💛<br><br>
-      Артем & Алёна
+  <!-- ===== HERO SECTION ===== -->
+  <section id="hero" class="relative min-h-screen flex flex-col items-center justify-center px-4 py-20 overflow-hidden">
+    <!-- Background decorative elements -->
+    <div class="absolute inset-0 pointer-events-none">
+      <!-- Top-left leaf cluster -->
+      <svg class="floating-leaf float-anim" style="top: 5%; left: 5%; width: 220px;" viewBox="0 0 200 200" fill="none">
+        <path d="M20 180 Q60 100 180 20 Q100 60 20 180Z" fill="#7c8c6e"/>
+        <path d="M20 180 Q80 120 140 60" stroke="#5a6e47" stroke-width="1" fill="none"/>
+      </svg>
+      <!-- Top-right leaf -->
+      <svg class="floating-leaf float-anim-2" style="top: 8%; right: 3%; width: 160px; transform: rotate(60deg);" viewBox="0 0 200 200" fill="none">
+        <path d="M20 180 Q60 100 180 20 Q100 60 20 180Z" fill="#a3b18a"/>
+        <path d="M20 180 Q80 120 140 60" stroke="#7c8c6e" stroke-width="1" fill="none"/>
+      </svg>
+      <!-- Bottom-left leaf -->
+      <svg class="floating-leaf float-anim-3" style="bottom: 10%; left: 8%; width: 140px; transform: rotate(-40deg);" viewBox="0 0 200 200" fill="none">
+        <path d="M20 180 Q60 100 180 20 Q100 60 20 180Z" fill="#a3b18a"/>
+      </svg>
+      <!-- Bottom-right leaf cluster -->
+      <svg class="floating-leaf float-anim" style="bottom: 5%; right: 5%; width: 200px; transform: rotate(120deg);" viewBox="0 0 200 200" fill="none">
+        <path d="M20 180 Q60 100 180 20 Q100 60 20 180Z" fill="#7c8c6e"/>
+      </svg>
+      <!-- Scattered small leaves -->
+      <svg class="floating-leaf float-anim-2" style="top: 25%; left: 2%; width: 80px; transform: rotate(30deg);" viewBox="0 0 200 200" fill="none">
+        <path d="M20 180 Q60 100 180 20 Q100 60 20 180Z" fill="#a3b18a"/>
+      </svg>
+      <svg class="floating-leaf float-anim-3" style="bottom: 30%; right: 2%; width: 90px; transform: rotate(150deg);" viewBox="0 0 200 200" fill="none">
+        <path d="M20 180 Q60 100 180 20 Q100 60 20 180Z" fill="#7c8c6e"/>
+      </svg>
     </div>
 
-  </main>
+    
+    <!-- Large side botanical decorations -->
+    <div class="hero-side-decor hero-side-left">
+      <svg viewBox="0 0 400 900" fill="none">
+        <path d="M120 40 C180 180, 220 300, 160 440 C120 560, 160 700, 220 860"
+              stroke="#a3b18a" stroke-width="3" stroke-linecap="round"/>
 
+        <ellipse cx="140" cy="120" rx="26" ry="48" fill="#a3b18a"/>
+        <ellipse cx="185" cy="210" rx="24" ry="44" fill="#7c8c6e"/>
+        <ellipse cx="205" cy="330" rx="28" ry="50" fill="#a3b18a"/>
+        <ellipse cx="165" cy="470" rx="24" ry="44" fill="#7c8c6e"/>
+        <ellipse cx="210" cy="610" rx="30" ry="52" fill="#a3b18a"/>
+        <ellipse cx="245" cy="760" rx="24" ry="44" fill="#7c8c6e"/>
+
+        <path d="M110 80 Q180 100 230 170" stroke="#c4b5a0" stroke-width="1.5"/>
+        <path d="M150 280 Q220 310 260 380" stroke="#c4b5a0" stroke-width="1.5"/>
+        <path d="M150 520 Q220 560 280 640" stroke="#c4b5a0" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <div class="hero-side-decor hero-side-right">
+      <svg viewBox="0 0 400 900" fill="none">
+        <path d="M120 40 C180 180, 220 300, 160 440 C120 560, 160 700, 220 860"
+              stroke="#a3b18a" stroke-width="3" stroke-linecap="round"/>
+
+        <ellipse cx="140" cy="120" rx="26" ry="48" fill="#a3b18a"/>
+        <ellipse cx="185" cy="210" rx="24" ry="44" fill="#7c8c6e"/>
+        <ellipse cx="205" cy="330" rx="28" ry="50" fill="#a3b18a"/>
+        <ellipse cx="165" cy="470" rx="24" ry="44" fill="#7c8c6e"/>
+        <ellipse cx="210" cy="610" rx="30" ry="52" fill="#a3b18a"/>
+        <ellipse cx="245" cy="760" rx="24" ry="44" fill="#7c8c6e"/>
+
+        <path d="M110 80 Q180 100 230 170" stroke="#c4b5a0" stroke-width="1.5"/>
+        <path d="M150 280 Q220 310 260 380" stroke="#c4b5a0" stroke-width="1.5"/>
+        <path d="M150 520 Q220 560 280 640" stroke="#c4b5a0" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+
+    <!-- Content -->
+    <div class="relative z-10 text-center max-w-2xl mx-auto">
+      <!-- Date label -->
+      <p class="hero-animate text-xs tracking-[0.3em] uppercase text-sage font-medium mb-6">08 августа 2026</p>
+
+      <!-- Names -->
+      <h1 class="hero-animate-delay font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-stone-800 leading-tight">
+        Артем <span class="text-sage font-light italic">&</span> Алена
+      </h1>
+
+      <!-- Decorative divider -->
+      <div class="hero-animate-delay-2 flex items-center justify-center gap-3 my-8">
+        <span class="block w-12 h-px bg-warm"></span>
+        <svg class="w-5 h-5 text-sage" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/>
+        </svg>
+        <span class="block w-12 h-px bg-warm"></span>
+      </div>
+
+      <!-- Welcome text -->
+      <p class="hero-animate-delay-2 font-serif text-lg sm:text-xl md:text-2xl text-stone-600 italic leading-relaxed mb-10 px-4">
+        Мы будем счастливы разделить с вами<br>самый важный день нашей жизни ❤️
+      </p>
+
+      <!-- CTA button -->
+      <div class="hero-animate-delay-3">
+        <a href="#rsvp" class="btn-shine inline-block bg-leaf hover:bg-forest text-white text-xs tracking-[0.2em] uppercase font-medium px-8 py-4 rounded-full transition-colors duration-300">
+          Подтвердить присутствие
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator">
+      <i data-lucide="chevron-down" class="w-5 h-5 text-warm"></i>
+    </div>
+  </section>
+
+  <!-- ===== COUNTDOWN SECTION ===== -->
+  
+<section id="countdown" class="relative py-20 px-4">
+    <div class="soft-glow glow-top"></div>
+    <div class="botanical-bg">
+      <svg class="eucalyptus-branch eucalyptus-top-left eucalyptus-decoration" viewBox="0 0 200 200">
+        <g fill="#7c8c6e">
+          <ellipse cx="60" cy="40" rx="12" ry="20"/>
+          <ellipse cx="90" cy="70" rx="12" ry="20"/>
+          <ellipse cx="120" cy="100" rx="12" ry="20"/>
+          <ellipse cx="150" cy="130" rx="12" ry="20"/>
+        </g>
+        <path d="M50 20 Q100 90 160 160" stroke="#5a6e47" stroke-width="2" fill="none"/>
+      </svg>
+    </div>
+
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="fade-up font-serif text-3xl sm:text-4xl md:text-5xl font-light text-stone-800 mb-4">
+        До свадьбы осталось
+      </h2>
+
+      <div class="leaf-divider fade-up fade-up-delay-1">
+        <svg class="w-4 h-4 text-sage" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/>
+        </svg>
+      </div>
+
+      <!-- Countdown cards -->
+      <div class="fade-up fade-up-delay-2 flex justify-center gap-3 sm:gap-5 mt-10">
+        <!-- Days -->
+        <div class="countdown-card bg-white/70 backdrop-blur-sm rounded-2xl px-4 sm:px-6 py-5 sm:py-6 min-w-[72px] sm:min-w-[100px] border border-beige/50 shadow-sm">
+          <span id="days" class="block font-serif text-3xl sm:text-5xl text-stone-800 font-light">000</span>
+          <span class="block text-[10px] sm:text-xs tracking-widest uppercase text-muted mt-2">дней</span>
+        </div>
+        <!-- Hours -->
+        <div class="countdown-card bg-white/70 backdrop-blur-sm rounded-2xl px-4 sm:px-6 py-5 sm:py-6 min-w-[72px] sm:min-w-[100px] border border-beige/50 shadow-sm">
+          <span id="hours" class="block font-serif text-3xl sm:text-5xl text-stone-800 font-light">00</span>
+          <span class="block text-[10px] sm:text-xs tracking-widest uppercase text-muted mt-2">часов</span>
+        </div>
+        <!-- Minutes -->
+        <div class="countdown-card bg-white/70 backdrop-blur-sm rounded-2xl px-4 sm:px-6 py-5 sm:py-6 min-w-[72px] sm:min-w-[100px] border border-beige/50 shadow-sm">
+          <span id="minutes" class="block font-serif text-3xl sm:text-5xl text-stone-800 font-light">00</span>
+          <span class="block text-[10px] sm:text-xs tracking-widest uppercase text-muted mt-2">минут</span>
+        </div>
+        <!-- Seconds -->
+        <div class="countdown-card bg-white/70 backdrop-blur-sm rounded-2xl px-4 sm:px-6 py-5 sm:py-6 min-w-[72px] sm:min-w-[100px] border border-beige/50 shadow-sm">
+          <span id="seconds" class="block font-serif text-3xl sm:text-5xl text-sage font-light seconds-pulse">00</span>
+          <span class="block text-[10px] sm:text-xs tracking-widest uppercase text-muted mt-2">секунд</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GIFTS SECTION ===== -->
+  <section id="gifts" class="relative py-16 px-4">
+    <div class="max-w-2xl mx-auto text-center">
+      <div class="fade-up info-card bg-white/50 backdrop-blur-sm rounded-3xl px-8 py-10 sm:px-12 sm:py-12 border border-beige/40 shadow-sm relative overflow-hidden">
+        <!-- Decorative leaf corners -->
+        <svg class="leaf-top-left" viewBox="0 0 200 200" fill="none">
+          <path d="M20 180 Q60 100 180 20 Q100 60 20 180Z" fill="#7c8c6e"/>
+        </svg>
+        <svg class="leaf-bottom-right" viewBox="0 0 200 200" fill="none">
+          <path d="M20 180 Q60 100 180 20 Q100 60 20 180Z" fill="#7c8c6e"/>
+        </svg>
+
+        <div class="relative z-10">
+          <div class="w-12 h-12 rounded-full bg-sage/10 flex items-center justify-center mx-auto mb-6">
+            <i data-lucide="gift" class="w-6 h-6 text-sage"></i>
+          </div>
+          <h2 class="font-serif text-3xl sm:text-4xl font-light text-stone-800 mb-6">Подарки</h2>
+          <p class="font-serif text-lg sm:text-xl text-stone-600 leading-relaxed">
+            Самое главное для нас — ваше присутствие ❤️<br><br>
+            Но если захотите сделать подарок, мы будем рады вкладу в наше будущее 🪙
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DRESS CODE SECTION ===== -->
+  <section id="dresscode" class="relative py-16 px-4">
+    <div class="max-w-2xl mx-auto text-center">
+      <div class="fade-up info-card bg-white/50 backdrop-blur-sm rounded-3xl px-8 py-10 sm:px-12 sm:py-12 border border-beige/40 shadow-sm relative overflow-hidden">
+        <svg class="leaf-top-left" viewBox="0 0 200 200" fill="none">
+          <path d="M20 180 Q60 100 180 20 Q100 60 20 180Z" fill="#a3b18a"/>
+        </svg>
+        <svg class="leaf-bottom-right" viewBox="0 0 200 200" fill="none">
+          <path d="M20 180 Q60 100 180 20 Q100 60 20 180Z" fill="#a3b18a"/>
+        </svg>
+
+        <div class="relative z-10">
+          <div class="w-12 h-12 rounded-full bg-sage/10 flex items-center justify-center mx-auto mb-6">
+            <i data-lucide="shirt" class="w-6 h-6 text-sage"></i>
+          </div>
+          <h2 class="font-serif text-3xl sm:text-4xl font-light text-stone-800 mb-6">Дресс-код</h2>
+          <p class="font-serif text-lg sm:text-xl text-stone-600 leading-relaxed">
+            Для нас самое главное — ваше присутствие, улыбки и хорошее настроение ✨<br><br>
+            Мы не ограничиваем гостей определенными цветами или стилем одежды — будем рады видеть вас красивыми и счастливыми ❤️
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SCHEDULE SECTION ===== -->
+  
+<section id="schedule" class="relative py-20 px-4">
+    <div class="soft-glow glow-bottom"></div>
+    <div class="botanical-bg">
+      <svg class="eucalyptus-branch eucalyptus-bottom-right eucalyptus-decoration" viewBox="0 0 200 200">
+        <g fill="#a3b18a">
+          <ellipse cx="60" cy="40" rx="12" ry="20"/>
+          <ellipse cx="90" cy="70" rx="12" ry="20"/>
+          <ellipse cx="120" cy="100" rx="12" ry="20"/>
+          <ellipse cx="150" cy="130" rx="12" ry="20"/>
+        </g>
+        <path d="M50 20 Q100 90 160 160" stroke="#7c8c6e" stroke-width="2" fill="none"/>
+      </svg>
+    </div>
+
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="fade-up font-serif text-3xl sm:text-4xl md:text-5xl font-light text-stone-800 mb-4">
+        Расписание свадьбы
+      </h2>
+
+      <div class="leaf-divider fade-up fade-up-delay-1">
+        <svg class="w-4 h-4 text-sage" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/>
+        </svg>
+      </div>
+
+      <div class="mt-12 space-y-8">
+        <!-- Registry Office -->
+        <div class="fade-up fade-up-delay-2 info-card bg-white/60 backdrop-blur-sm rounded-3xl px-6 sm:px-10 py-8 sm:py-10 border border-beige/40 shadow-sm relative overflow-hidden text-left">
+          <svg class="leaf-top-left" viewBox="0 0 200 200" fill="none" style="opacity: 0.08;">
+            <path d="M20 180 Q60 100 180 20 Q100 60 20 180Z" fill="#7c8c6e"/>
+          </svg>
+
+          <div class="relative z-10 flex flex-col sm:flex-row sm:items-center gap-6">
+            <div class="flex-shrink-0 text-center sm:text-left">
+              <div class="w-14 h-14 rounded-full bg-sage/10 flex items-center justify-center mx-auto sm:mx-0 mb-3">
+                <i data-lucide="heart" class="w-7 h-7 text-sage"></i>
+              </div>
+              <p class="font-serif text-3xl sm:text-4xl font-light text-stone-800">14:30</p>
+            </div>
+            <div class="sm:border-l sm:border-beige sm:pl-6 text-center sm:text-left">
+              <p class="text-[10px] tracking-[0.2em] uppercase text-sage font-medium mb-2">Торжественная роспись</p>
+              <h3 class="font-serif text-2xl sm:text-3xl font-light text-stone-800 mb-3">РОСПИСЬ</h3>
+              <p class="text-sm text-stone-500 leading-relaxed">
+                08.08.2026<br>
+                Отдел ЗАГС Кировского района<br>
+                г. Екатеринбурга Свердловской области
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vertical connector -->
+        <div class="flex justify-center">
+          <div class="w-px h-8 bg-gradient-to-b from-transparent via-sage/30 to-transparent"></div>
+        </div>
+
+        <!-- Banquet -->
+        <div class="fade-up fade-up-delay-3 info-card bg-white/60 backdrop-blur-sm rounded-3xl px-6 sm:px-10 py-8 sm:py-10 border border-beige/40 shadow-sm relative overflow-hidden text-left">
+          <svg class="leaf-bottom-right" viewBox="0 0 200 200" fill="none" style="opacity: 0.08;">
+            <path d="M20 180 Q60 100 180 20 Q100 60 20 180Z" fill="#7c8c6e"/>
+          </svg>
+
+          <div class="relative z-10 flex flex-col sm:flex-row sm:items-center gap-6">
+            <div class="flex-shrink-0 text-center sm:text-left">
+              <div class="w-14 h-14 rounded-full bg-sage/10 flex items-center justify-center mx-auto sm:mx-0 mb-3">
+                <i data-lucide="wine" class="w-7 h-7 text-sage"></i>
+              </div>
+              <p class="font-serif text-3xl sm:text-4xl font-light text-stone-800">18:00</p>
+            </div>
+            <div class="sm:border-l sm:border-beige sm:pl-6 text-center sm:text-left">
+              <p class="text-[10px] tracking-[0.2em] uppercase text-sage font-medium mb-2">08 августа 2026</p>
+              <h3 class="font-serif text-2xl sm:text-3xl font-light text-stone-800 mb-3">БАНКЕТ</h3>
+              <p class="text-sm text-stone-500 leading-relaxed mb-5">
+                Гостиница «Элизий»<br>
+                Арамиль, КП Берёзки, 289
+              </p>
+              <a href="https://yandex.ru/maps/-/CPgZa2Zu" target="_blank" rel="noopener noreferrer"
+                 class="btn-shine inline-flex items-center gap-2 bg-leaf hover:bg-forest text-white text-xs tracking-[0.15em] uppercase font-medium px-6 py-3 rounded-full transition-colors duration-300">
+                <i data-lucide="map-pin" class="w-4 h-4"></i>
+                Открыть карту
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== IMPORTANT INFO SECTION ===== -->
+  <section id="info" class="relative py-16 px-4">
+    <div class="max-w-2xl mx-auto">
+      <div class="fade-up bg-sage/10 backdrop-blur-sm rounded-3xl px-8 py-10 sm:px-12 sm:py-12 border border-sage/20 shadow-sm relative overflow-hidden">
+        <!-- Decorative leaves -->
+        <svg class="floating-leaf float-anim" style="top: 10%; right: 5%; width: 100px; transform: rotate(45deg);" viewBox="0 0 200 200" fill="none">
+          <path d="M20 180 Q60 100 180 20 Q100 60 20 180Z" fill="#7c8c6e"/>
+        </svg>
+        <svg class="floating-leaf float-anim-2" style="bottom: 5%; left: 5%; width: 80px; transform: rotate(-30deg);" viewBox="0 0 200 200" fill="none">
+          <path d="M20 180 Q60 100 180 20 Q100 60 20 180Z" fill="#a3b18a"/>
+        </svg>
+
+        <div class="relative z-10 text-center">
+          <div class="w-12 h-12 rounded-full bg-leaf/15 flex items-center justify-center mx-auto mb-6">
+            <i data-lucide="sparkles" class="w-6 h-6 text-leaf"></i>
+          </div>
+          <h2 class="font-serif text-3xl sm:text-4xl font-light text-stone-800 mb-6">Важная информация</h2>
+          <p class="font-serif text-lg sm:text-xl text-stone-600 leading-relaxed">
+            После банкета вас будет ждать небольшой сюрприз ✨<br><br>
+            Поэтому рекомендуем взять с собой купальные принадлежности: купальники, плавки и всё необходимое для комфортного отдыха 🌊<br><br>
+            Также для гостей будет предусмотрено размещение на территории базы.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <div class="section-divider-botanical">
+    <svg viewBox="0 0 300 60" fill="none">
+      <path d="M20 30 Q150 5 280 30" stroke="#7c8c6e" stroke-width="1.5"/>
+      <ellipse cx="90" cy="24" rx="7" ry="12" fill="#a3b18a"/>
+      <ellipse cx="150" cy="18" rx="7" ry="12" fill="#7c8c6e"/>
+      <ellipse cx="210" cy="24" rx="7" ry="12" fill="#a3b18a"/>
+    </svg>
+  </div>
+
+  <!-- ===== RSVP SECTION ===== -->
+
+  <section id="rsvp" class="relative py-20 px-4">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="fade-up font-serif text-3xl sm:text-4xl md:text-5xl font-light text-stone-800 mb-4">
+        Подтверждение присутствия
+      </h2>
+
+      <div class="leaf-divider fade-up fade-up-delay-1">
+        <svg class="w-4 h-4 text-sage" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/>
+        </svg>
+      </div>
+
+      <p class="fade-up fade-up-delay-2 font-serif text-lg sm:text-xl text-stone-600 leading-relaxed mt-8 mb-10">
+        Пожалуйста, подтвердите ваше присутствие<br>любым удобным способом ❤️
+      </p>
+
+      <div class="fade-up fade-up-delay-3 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="https://max.ru/u/f9LHodD0cOLv03bHVtRRLVVDnRMN3H9V80N_QQiYy6kW3vzPJYdkKlonUtc" target="_blank" rel="noopener noreferrer"
+           class="btn-shine flex items-center gap-3 bg-leaf hover:bg-forest text-white text-sm tracking-[0.1em] uppercase font-medium px-8 py-4 rounded-full transition-colors duration-300 w-full sm:w-auto justify-center">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21.97 4.39l-7.53 14.3c-.41.78-1.58.78-1.99 0L4.92 4.39c-.44-.84.42-1.71 1.26-1.26l7.29 4.47a1 1 0 00.98 0l7.29-4.47c.84-.44 1.7.42 1.26 1.26z"/>
+          </svg>
+          Max
+        </a>
+        <a href="https://t.me/idt001" target="_blank" rel="noopener noreferrer"
+           class="btn-shine flex items-center gap-3 bg-[#2AABEE] hover:bg-[#1e96d1] text-white text-sm tracking-[0.1em] uppercase font-medium px-8 py-4 rounded-full transition-colors duration-300 w-full sm:w-auto justify-center">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0011.944 0zM16.2 7.8l-1.5 7.1c-.1.5-.4.7-.9.5l-2.6-2-1.3 1.3c-.1.1-.3.3-.6.3l.2-2.5 4.8-4.3c.2-.2-.1-.3-.3-.2l-5.9 3.8-2.6-.8c-.6-.2-.6-.6.1-.9l10-3.9c.5-.2.9.1.7.9z"/>
+          </svg>
+          Telegram
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="py-12 px-4 text-center">
+    <div class="flex items-center justify-center gap-3 mb-4">
+      <span class="block w-12 h-px bg-warm"></span>
+      <svg class="w-4 h-4 text-sage" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/>
+      </svg>
+      <span class="block w-12 h-px bg-warm"></span>
+    </div>
+    <p class="font-serif text-lg text-stone-400 italic">
+      Артем & Алена — 08.08.2026
+    </p>
+    <p class="text-xs text-stone-300 mt-3 tracking-wide">
+      С любовью ❤️
+    </p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
   <script>
-    const targetDate = new Date('2026-08-08T18:00:00');
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // ===== COUNTDOWN TIMER =====
+    const weddingDate = new Date('2026-08-08T14:30:00+05:00'); // Yekaterinburg timezone
 
     function updateCountdown() {
       const now = new Date();
-      const diff = targetDate - now;
+      const diff = weddingDate - now;
 
-      const d = Math.floor(diff / (1000*60*60*24));
-      const h = Math.floor(diff / (1000*60*60) % 24);
-      const m = Math.floor(diff / (1000*60) % 60);
-      const s = Math.floor(diff / 1000 % 60);
+      if (diff <= 0) {
+        document.getElementById('days').textContent = '🎉';
+        document.getElementById('hours').textContent = '🎉';
+        document.getElementById('minutes').textContent = '🎉';
+        document.getElementById('seconds').textContent = '🎉';
+        return;
+      }
 
-      document.getElementById('days').textContent = d;
-      document.getElementById('hours').textContent = h;
-      document.getElementById('minutes').textContent = m;
-      document.getElementById('seconds').textContent = s;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('days').textContent = String(days).padStart(3, '0');
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
     }
 
-    setInterval(updateCountdown, 1000);
     updateCountdown();
-  </script>
+    setInterval(updateCountdown, 1000);
 
+    // ===== SCROLL ANIMATIONS (Intersection Observer) =====
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-up').forEach(el => {
+      observer.observe(el);
+    });
+
+    // ===== NAVBAR BACKGROUND ON SCROLL =====
+    const navbar = document.getElementById('navbar');
+    let lastScroll = 0;
+
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+
+      if (currentScroll > 80) {
+        navbar.style.backgroundColor = 'rgba(250, 248, 245, 0.92)';
+        navbar.style.backdropFilter = 'blur(12px)';
+        navbar.style.borderBottom = '1px solid rgba(232, 221, 208, 0.4)';
+      } else {
+        navbar.style.backgroundColor = 'transparent';
+        navbar.style.backdropFilter = 'none';
+        navbar.style.borderBottom = '1px solid transparent';
+      }
+
+      lastScroll = currentScroll;
+    });
+
+    // ===== MOBILE MENU =====
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    let menuOpen = false;
+
+    menuToggle.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      if (menuOpen) {
+        mobileMenu.classList.add('open');
+      } else {
+        mobileMenu.classList.remove('open');
+      }
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        menuOpen = false;
+        mobileMenu.classList.remove('open');
+      });
+    });
+
+    // ===== SMOOTH SCROLL FOR ALL ANCHOR LINKS =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const offset = 80;
+          const bodyRect = document.body.getBoundingClientRect().top;
+          const elementRect = target.getBoundingClientRect().top;
+          const elementPosition = elementRect - bodyRect;
+          const offsetPosition = elementPosition - offset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
